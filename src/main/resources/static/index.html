@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background-image: url(./img/DALL·E-1.png);
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255,0);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .title {
+            color: white;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            margin: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary, .btn-success {
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">图书管理系统</div>
+    <button class="btn btn-success">登录</button>
+    <button class="btn btn-primary">注册</button>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var originalHTML = document.body.innerHTML; // 保存最初的 HTML
+
+        function setupEventHandlers() {
+            var loginButton = document.querySelector('.btn-success');
+            var registerButton = document.querySelector('.btn-primary');
+
+            if (loginButton) {
+                loginButton.addEventListener('click', function() {
+                    document.body.innerHTML = loginFormHTML;
+                    setupEventHandlers(); // 重新设置事件处理器
+                });
+            }
+
+            if (registerButton) {
+                registerButton.addEventListener('click', function() {
+                    document.body.innerHTML = registerFormHTML;
+                    setupEventHandlers(); // 重新设置事件处理器
+                });
+            }
+
+            var backButton = document.querySelector('#backButton');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    document.body.innerHTML = originalHTML;
+                    setupEventHandlers(); // 重新设置事件处理器
+                });
+            }
+        }
+
+        var loginFormHTML = `
+        <div class="container">
+            <h1 class="title">登录</h1>
+            <form action="" method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="uname" required placeholder="用户名">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="pwd" required placeholder="密码">
+                </div>
+                <button type="submit" class="btn btn-success">登录</button>
+                <button type="button" class="btn btn-primary" id="backButton">返回</button>
+            </form>
+        </div>
+    `;
+
+        var registerFormHTML = `
+        <div class="container">
+            <h1 class="title">注册</h1>
+            <form action="" method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="uname" required placeholder="用户名">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" required placeholder="邮箱">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="pwd" required placeholder="密码">
+                </div>
+                <button type="submit" class="btn btn-primary">注册</button>
+                <button type="button" class="btn btn-success" id="backButton">返回</button>
+            </form>
+        </div>
+    `;
+
+        setupEventHandlers(); // 初始化事件处理器
+    });
+
+</script>
+
+</body>
+</html>
