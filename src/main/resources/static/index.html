@@ -74,83 +74,98 @@
         }
 
     </style>
+    <script src="jquery/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <div class="container">
     <div class="title">图书管理系统</div>
-    <button class="btn btn-success">登录</button>
-    <button class="btn btn-primary">注册</button>
+    <button class="btn btn-success" id="showLoginButton">登录</button>
+    <button class="btn btn-primary" id="showRegisterButton">注册</button>
+</div>
+
+<div class="container" id="loginForm" style="display: none;">
+    <h1 class="title">登录</h1>
+    <form>
+        <div class="form-group">
+            <input type="text" class="form-control" name="uname" required placeholder="用户名">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="pwd" required placeholder="密码">
+        </div>
+        <button type="submit" class="btn btn-success">登录</button>
+        <button type="button" class="btn btn-primary" id="backFromLogin">返回</button>
+    </form>
+</div>
+
+<div class="container" id="registerForm" style="display: none;">
+    <h1 class="title">注册</h1>
+    <form>
+        <div class="form-group">
+            <input type="text" class="form-control" name="username" required placeholder="用户名">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="email" required placeholder="邮箱">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" required placeholder="密码">
+        </div>
+        <button type="submit" class="btn btn-primary">注册</button>
+        <button type="button" class="btn btn-success" id="backFromRegister">返回</button>
+    </form>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var originalHTML = document.body.innerHTML; // 保存最初的 HTML
-
-        function setupEventHandlers() {
-            var loginButton = document.querySelector('.btn-success');
-            var registerButton = document.querySelector('.btn-primary');
-
-            if (loginButton) {
-                loginButton.addEventListener('click', function() {
-                    document.body.innerHTML = loginFormHTML;
-                    setupEventHandlers(); // 重新设置事件处理器
-                });
-            }
-
-            if (registerButton) {
-                registerButton.addEventListener('click', function() {
-                    document.body.innerHTML = registerFormHTML;
-                    setupEventHandlers(); // 重新设置事件处理器
-                });
-            }
-
-            var backButton = document.querySelector('#backButton');
-            if (backButton) {
-                backButton.addEventListener('click', function() {
-                    document.body.innerHTML = originalHTML;
-                    setupEventHandlers(); // 重新设置事件处理器
-                });
-            }
+        // 函数定义：显示和隐藏登录/注册表单
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
         }
 
-        var loginFormHTML = `
-        <div class="container">
-            <h1 class="title">登录</h1>
-            <form action="" method="POST">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="uname" required placeholder="用户名">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="pwd" required placeholder="密码">
-                </div>
-                <button type="submit" class="btn btn-success">登录</button>
-                <button type="button" class="btn btn-primary" id="backButton">返回</button>
-            </form>
-        </div>
-    `;
+        function showRegisterForm() {
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+        }
 
-        var registerFormHTML = `
-        <div class="container">
-            <h1 class="title">注册</h1>
-            <form action="" method="POST">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="uname" required placeholder="用户名">
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" required placeholder="邮箱">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="pwd" required placeholder="密码">
-                </div>
-                <button type="submit" class="btn btn-primary">注册</button>
-                <button type="button" class="btn btn-success" id="backButton">返回</button>
-            </form>
-        </div>
-    `;
+        function hideAllForms() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+        }
 
-        setupEventHandlers(); // 初始化事件处理器
+        // 事件监听器设置
+        document.getElementById('showLoginButton').addEventListener('click', showLoginForm);
+        document.getElementById('showRegisterButton').addEventListener('click', showRegisterForm);
+
+        // 注册表单提交处理
+        function setupRegisterFormSubmission() {
+            $('#registerForm').off('submit').on('submit', function(event) {
+                event.preventDefault();
+                var formData = {
+                    username: $('input[name="username"]').val(),
+                    password: $('input[name="password"]').val(),
+                    email: $('input[name="email"]').val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/api/register',
+                    data: formData,
+                    dataType: 'json',
+                    encode: true
+                })
+                    .done(function(data) {
+                        alert("注册成功！");
+                        hideAllForms();
+                    })
+                    .fail(function(data) {
+                        alert("注册失败，请重试。");
+                    });
+            });
+        }
+
+        setupRegisterFormSubmission(); // 初始时调用一次
     });
-
 </script>
+
 
 </body>
 </html>
