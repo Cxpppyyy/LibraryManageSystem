@@ -153,17 +153,44 @@
                     encode: true
                 })
                     .done(function(data) {
-                        alert("注册成功！");
-                        hideAllForms();
+                        if (data.success) {
+                            alert(data.message);
+                            hideAllForms();
+                        } else {
+                            alert("注册失败，请重试。");
+                        }
                     })
-                    .fail(function(data) {
-                        alert("注册失败，请重试。");
-                    });
             });
         }
-
         setupRegisterFormSubmission(); // 初始时调用一次
     });
+
+    // 登录表单提交处理
+    $('#loginForm').on('submit', function(event) {
+        event.preventDefault();
+        var formData = {
+            username: $('input[name="uname"]').val(),
+            password: $('input[name="pwd"]').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/login',
+            data: formData
+        })
+            .done(function(data) {
+                if (data.success) {
+                    // 登录成功，可能需要重定向到另一个页面
+                    window.location.href = "www.baidu.com"; // 示例重定向
+                } else {
+                    alert(data.message); // 显示登录失败消息
+                }
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                alert("登录失败，请重试。");
+            });
+    });
+
 </script>
 
 
