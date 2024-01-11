@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>图书管理系统</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      background-image: url('/static/img/DALL·E-4.png');
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    .header {
+      background-color: rgba(51, 51, 51, 0.8);
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      background-color: rgba(68, 68, 68, 0.8);
+      padding: 10px 0;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .nav-bar a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-bar a:hover {
+      color: #ddd;
+    }
+    .content {
+      width: 80%;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+    }
+    .book-list {
+      list-style: none;
+      padding: 0;
+    }
+    .book-list li {
+      border-bottom: 1px solid #ddd;
+      padding: 8px 0;
+    }
+    .book-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .book-table th, .book-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .book-table th {
+      background-color: #f4f4f4;
+    }
+    .search-box {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .search-input {
+      width: 500px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .search-button {
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .search-button:hover {
+      background-color: #45a049;
+    }
+    .form-input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-label {
+      margin-top: 10px;
+      display: block;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>图书管理系统</h1>
+</div>
+<div class="nav-bar">
+  <a href="#">图书列表</a>
+  <a href="#">搜索图书</a>
+  <a href="#">添加图书</a>
+  <a href="#">个人信息</a>
+</div>
+<div class="search-box" style="margin-top: 20px;">
+  <form id="searchForm">
+    <input type="text" name="query" placeholder="搜索图书..." class="search-input">
+    <button type="submit" class="search-button">搜索</button>
+  </form>
+</div>
+<div class="content">
+  <h2>图书信息</h2>
+  <table class="book-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>书名</th>
+      <th>出版社</th>
+      <th>出版日期</th>
+      <th>是否借出</th>
+      <th>借阅者ID</th>
+      <th>借阅开始日期</th>
+      <th>归还截止日期</th>
+      <th>图书信息ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 表格数据填充区域 -->
+    </tbody>
+  </table>
+</div>
+<script>
+  document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const query = document.querySelector('.search-input').value;
+
+    fetch(`http://localhost:8080/api/search?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+              const tableBody = document.querySelector('.book-table tbody');
+              tableBody.innerHTML = ''; // 清空表格
+              data.forEach(book => {
+                const row = document.createElement('tr');
+                Object.values(book).forEach(text => {
+                  const cell = document.createElement('td');
+                  cell.textContent = text;
+                  row.appendChild(cell);
+                });
+                tableBody.appendChild(row);
+              });
+            })
+            .catch(error => console.error('Error:', error));
+  });
+</script>
+
+</body>
+</html>

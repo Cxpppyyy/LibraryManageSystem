@@ -12,10 +12,10 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
-public class BookController {
+public class BookInfoController {
     private final BookInfoService bookInfoService;
 
-    public BookController(BookInfoService bookInfoService) {
+    public BookInfoController(BookInfoService bookInfoService) {
         this.bookInfoService = bookInfoService;
     }
 
@@ -24,3 +24,4 @@ public class BookController {
         return bookInfoService.getAllBooks();
     }
 }
+
