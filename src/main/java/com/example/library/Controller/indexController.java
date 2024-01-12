@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.HashMap;
 
 @CrossOrigin(origins = "*",maxAge = 3600)
@@ -25,9 +26,11 @@ public class indexController {
     public ResponseEntity<?> login(String username, String password) {
         boolean loginSuccess = indexService.validateUser(username, password);
         if (loginSuccess) {
+            Integer loginId = indexService.getLoginIdByUsername(username);
             // 登录成功，返回成功响应
             return ResponseEntity.ok().body(new HashMap<String, Object>() {{
                 put("success", true);
+                put("loginId", loginId);
                 put("message", "登录成功");
             }});
         } else {

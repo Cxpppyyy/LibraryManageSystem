@@ -17,5 +17,9 @@ public class indexService {
     public boolean validateUser(String username, String password) {
         return indexDao.validateUser(username, password);
     }
+    public Integer getLoginIdByUsername(String username) {
+        return indexDao.getLoginIdByUsername(username);
+    }
+
 
 }

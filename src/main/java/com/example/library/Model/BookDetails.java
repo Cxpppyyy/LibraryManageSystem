@@ -26,6 +26,7 @@ public class BookDetails {
         this.dueDate = dueDate;
         this.bookInfoId = bookInfoId;
     }
+
     public int getBookId() {
         return bookId;
     }

@@ -178,6 +178,7 @@
         })
             .done(function(data) {
                 if (data.success) {
+                    alert("登录成功！您的登录ID是: " + data.loginId);
                     window.location.href = "http://localhost:8080/library-homepage";
                 } else {
                     alert(data.message);

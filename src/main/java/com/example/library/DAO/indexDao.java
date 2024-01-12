@@ -1,6 +1,7 @@
 package com.example.library.DAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,14 @@ public class indexDao {
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{username, password}, Integer.class);
         return count != null && count > 0;
     }
+    public Integer getLoginIdByUsername(String username) {
+        String sql = "SELECT login_id FROM login WHERE login_name = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
 
 }

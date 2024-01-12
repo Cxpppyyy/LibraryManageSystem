@@ -4,6 +4,13 @@ package com.example.library.Model;
 import java.util.Date;
 public class BookInfo {
     private int bookInfoId;
+    private String bookName;
+    private String publisher;
+    private Date publicationDate;
+    private int totalStock;
+    private int availableBooks;
+
+
 
     public int getBookInfoId() {
         return bookInfoId;
@@ -53,10 +60,6 @@ public class BookInfo {
         this.availableBooks = availableBooks;
     }
 
-    private String bookName;
-    private String publisher;
-    private Date publicationDate;
-    private int totalStock;
-    private int availableBooks;
+
 }
 

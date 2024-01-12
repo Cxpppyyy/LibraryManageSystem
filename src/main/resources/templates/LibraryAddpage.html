@@ -117,84 +117,75 @@
   <a href="http://localhost:8080/library-addpage">添加图书</a>
   <a href="http://localhost:8080/library-userinfo">个人信息</a>
 </div>
-<div class="content">
-  <h2>图书信息</h2>
-  <form id="bookDetailsForm">
-    <div class="form-group">
-      <label for="bookId">书籍ID</label>
-      <input type="number" id="bookId" name="book_id" class="form-input" >
-    </div>
-    <div class="form-group">
-      <label for="bookName">书名</label>
-      <input type="text" id="bookName" name="book_name" class="form-input" required>
-    </div>
-    <div class="form-group">
-      <label for="publisher">出版社</label>
-      <input type="text" id="publisher" name="publisher" class="form-input" required>
-    </div>
-    <div class="form-group">
-      <label for="publicationDate">出版日期</label>
-      <input type="date" id="publicationDate" name="publication_date" class="form-input" required>
-    </div>
-    <div class="form-group">
-      <label for="isBorrowed">是否借出</label>
-      <select id="isBorrowed" name="is_borrowed" class="form-input">
-        <option value="">请选择</option>
-        <option value="1">是</option>
-        <option value="0">否</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="borrowerId">借阅者ID</label>
-      <input type="number" id="borrowerId" name="borrower_id" class="form-input">
-    </div>
-    <div class="form-group">
-      <label for="startDate">借阅开始日期</label>
-      <input type="date" id="startDate" name="start_date" class="form-input">
-    </div>
-    <div class="form-group">
-      <label for="dueDate">归还截止日期</label>
-      <input type="date" id="dueDate" name="due_date" class="form-input">
-    </div>
-    <div class="form-group">
-      <button type="submit" class="search-button">提交</button>
-    </div>
+  <div class="content">
+    <h2>添加/编辑图书信息</h2>
+    <form id="bookInfoForm" method="post">
+      <!-- 图书信息ID（隐藏字段，仅在编辑时使用） -->
+      <input type="hidden" id="bookInfoId" name="bookInfoId" class="form-input">
+
+      <!-- 书籍名称 -->
+      <div class="form-group">
+        <label for="bookName">书名</label>
+        <input type="text" id="bookName" name="bookName" class="form-input" required>
+      </div>
+
+      <!-- 出版社 -->
+      <div class="form-group">
+        <label for="publisher">出版社</label>
+        <input type="text" id="publisher" name="publisher" class="form-input" required>
+      </div>
+
+      <!-- 出版日期 -->
+      <div class="form-group">
+        <label for="publicationDate">出版日期</label>
+        <input type="date" id="publicationDate" name="publicationDate" class="form-input" required>
+      </div>
+
+      <!-- 总库存量 -->
+      <div class="form-group">
+        <label for="totalStock">总库存量</label>
+        <input type="number" id="totalStock" name="totalStock" class="form-input">
+      </div>
+
+      <!-- 可用图书数量 -->
+      <div class="form-group">
+        <label for="availableBooks">可用图书数量</label>
+        <input type="number" id="availableBooks" name="availableBooks" class="form-input">
+      </div>
+
+      <!-- 提交按钮 -->
+      <div class="form-group">
+        <button type="submit" class="form-group button">提交</button>
+      </div>
+    </form>
   </form>
 </div>
+<script src="jquery/jquery-3.7.1.min.js"></script>
 <script>
-  document.getElementById('bookDetailsForm').addEventListener('submit', function(event) {
+  document.getElementById('bookInfoForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const bookId = document.getElementById('bookId').value;
     const formData = new FormData(event.target);
     const bookDetails = Object.fromEntries(formData.entries());
 
-    if (bookId) {
-      // 更新现有书籍
-      fetch(`/api/bookdetails/${bookId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookDetails),
-      })
-              .then(response => response.json())
-              .then(data => console.log('Book updated:', data))
-              .catch(error => console.error('Error:', error));
-    } else {
-      // 添加新书籍
-      fetch('/api/bookdetails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookDetails),
-      })
-              .then(response => response.json())
-              .then(data => console.log('Book added:', data))
-              .catch(error => console.error('Error:', error));
-    }
+    console.log('Book details submitted:', bookDetails); // 添加这行用于调试
+
+    fetch('http://localhost:8080/api/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookDetails),
+    })
+            .then(response => {
+              if (response.ok) {
+                console.log('Book added successfully');
+                // 处理表单提交成功逻辑
+              }
+            })
+            .catch(error => console.error('Error:', error));
   });
+
 </script>
 
 </body>

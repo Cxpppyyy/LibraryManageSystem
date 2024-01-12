@@ -22,7 +22,7 @@ public class BookDetailsDao {
                     rs.getString("publisher"),
                     rs.getDate("publication_date"),
                     rs.getBoolean("is_borrowed"),
-                    rs.getObject("borrower_id") != null ? rs.getInt("borrower_id") : null, // 处理可能的空值
+                    rs.getObject("borrower_id") != null ? rs.getInt("borrower_id") : null,
                     rs.getDate("start_date"),
                     rs.getDate("due_date"),
                     rs.getInt("book_info_id")
@@ -30,40 +30,11 @@ public class BookDetailsDao {
         });
     }
 
-    public BookDetails addBook(BookDetails bookDetails) {
-        String sql = "INSERT INTO bookdetails (book_name, publisher, publication_date, is_borrowed, borrower_id, start_date, due_date, book_info_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sql,
-                bookDetails.getBookName(),
-                bookDetails.getPublisher(),
-                bookDetails.getPublicationDate(),
-                bookDetails.isBorrowed(),
-                bookDetails.getBorrowerId(),
-                bookDetails.getStartDate(),
-                bookDetails.getDueDate(),
-                bookDetails.getBookInfoId());
 
-        Integer newId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-        bookDetails.setBookId(newId);
-        return bookDetails;
+    public void deleteBook(int id) {
+        String sql = "DELETE FROM bookdetails WHERE book_id = ?";
+        jdbcTemplate.update(sql, id);
     }
-
-    public BookDetails updateBook(int id, BookDetails bookDetails) {
-        String sql = "UPDATE bookdetails SET book_name = ?, publisher = ?, publication_date = ?, is_borrowed = ?, borrower_id = ?, start_date = ?, due_date = ?, book_info_id = ? WHERE book_id = ?";
-
-        jdbcTemplate.update(sql,
-                bookDetails.getBookName(),
-                bookDetails.getPublisher(),
-                bookDetails.getPublicationDate(),
-                bookDetails.isBorrowed(),
-                bookDetails.getBorrowerId(),
-                bookDetails.getStartDate(),
-                bookDetails.getDueDate(),
-                bookDetails.getBookInfoId(),
-                id);
-
-        return bookDetails;
-    }
-
 
 }

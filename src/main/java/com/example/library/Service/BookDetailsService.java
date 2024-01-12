@@ -17,12 +17,10 @@ public class BookDetailsService {
         return bookDetailsDao.searchBooks(query);
     }
 
-    public BookDetails addBook(BookDetails bookDetails) {
-        return bookDetailsDao.addBook(bookDetails);
+
+    public void deleteBook(int id) {
+        bookDetailsDao.deleteBook(id);
     }
 
-    public BookDetails updateBook(int id, BookDetails bookDetails) {
-        return bookDetailsDao.updateBook(id, bookDetails);
-    }
 
 }

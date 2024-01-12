@@ -20,13 +20,9 @@ public class BookDetailsController {
         return bookDetailsService.searchBooks(query);
     }
 
-    @PostMapping("/bookdetails")
-    public BookDetails addBook(@RequestBody BookDetails bookDetails) {
-        return bookDetailsService.addBook(bookDetails);
+    @DeleteMapping("/bookdetails/{id}")
+    public void deleteBook(@PathVariable int id) {
+        bookDetailsService.deleteBook(id);
     }
 
-    @PutMapping("/bookdetails/{id}")
-    public BookDetails updateBook(@PathVariable int id, @RequestBody BookDetails bookDetails) {
-        return bookDetailsService.updateBook(id, bookDetails);
-    }
 }

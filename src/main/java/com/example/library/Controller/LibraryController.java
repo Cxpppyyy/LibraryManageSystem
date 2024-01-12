@@ -19,5 +19,9 @@ public class LibraryController {
     public String librarySearchPage() {
         return "LibrarySearchpage";
     }
+    @GetMapping("/library-userinfo")
+    public String libraryUserinfo() {
+        return "LibraryUserinfo";
+    }
 }
 

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class BookInfoDao {
+public class    BookInfoDao {
     private final JdbcTemplate jdbcTemplate;
 
     public BookInfoDao(JdbcTemplate jdbcTemplate) {
@@ -33,5 +33,21 @@ public class BookInfoDao {
             book.setAvailableBooks(rs.getInt("available_books"));
             return book;
         }
+    }
+    public void addBook(BookInfo bookInfo) {
+        String sql = "INSERT INTO bookinfo (book_name, publisher, publication_date, total_stock, available_books) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        try {
+            jdbcTemplate.update(sql,
+                    bookInfo.getBookName(),
+                    bookInfo.getPublisher(),
+                    bookInfo.getPublicationDate(),
+                    bookInfo.getTotalStock(),
+                    bookInfo.getAvailableBooks());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 处理异常
+        }
+
     }
 }

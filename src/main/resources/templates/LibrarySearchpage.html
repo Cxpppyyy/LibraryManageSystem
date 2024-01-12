@@ -229,7 +229,14 @@
 
   function deleteBook(bookId) {
     console.log('删除图书 ID:', bookId);
-    // 在这里添加删除图书的逻辑
+    fetch(`http://localhost:8080/api/bookdetails/${bookId}`, { method: 'DELETE' })
+            .then(response => {
+              if (response.ok) {
+                console.log('图书删除成功');
+                document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+              }
+            })
+            .catch(error => console.error('Error:', error));
   }
 
   function formatDate(dateString) {

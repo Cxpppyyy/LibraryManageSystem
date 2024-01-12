@@ -81,63 +81,6 @@
     <a href="http://localhost:8080/library-addpage">添加图书</a>
     <a href="http://localhost:8080/library-userinfo">个人信息</a>
 </div>
-<div class="content">
-    <table class="book-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>书名</th>
-            <th>出版社</th>
-            <th>出版日期</th>
-            <th>总库存</th>
-            <th>可借数量</th>
-        </tr>
-        </thead>
-        <tbody id="bookList">
-        </tbody>
-    </table>
-</div>
 
-<script>
-    function fetchBooks() {
-        fetch('http://localhost:8080/api/books')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('bookList');
-                data.forEach(book => {
-                    const row = document.createElement('tr');
-
-                    const idCell = document.createElement('td');
-                    idCell.textContent = book.bookInfoId;
-                    row.appendChild(idCell);
-
-                    const nameCell = document.createElement('td');
-                    nameCell.textContent = book.bookName;
-                    row.appendChild(nameCell);
-
-                    const publisherCell = document.createElement('td');
-                    publisherCell.textContent = book.publisher;
-                    row.appendChild(publisherCell);
-
-                    const dateCell = document.createElement('td');
-                    dateCell.textContent = book.publicationDate;
-                    row.appendChild(dateCell);
-
-                    const stockCell = document.createElement('td');
-                    stockCell.textContent = book.totalStock;
-                    row.appendChild(stockCell);
-
-                    const availableCell = document.createElement('td');
-                    availableCell.textContent = book.availableBooks;
-                    row.appendChild(availableCell);
-
-                    tableBody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    fetchBooks();
-</script>
 </body>
 </html>

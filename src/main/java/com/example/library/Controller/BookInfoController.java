@@ -2,10 +2,8 @@ package com.example.library.Controller;
 
 import com.example.library.Service.BookInfoService;
 import com.example.library.Model.BookInfo;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +20,12 @@ public class BookInfoController {
     @GetMapping("/books")
     public List<BookInfo> viewBooks() {
         return bookInfoService.getAllBooks();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addBook(@RequestBody BookInfo bookInfo) {
+        bookInfoService.addBook(bookInfo);
+        return ResponseEntity.ok("Book added successfully");
     }
 }
 
