@@ -1,5 +1,5 @@
 项目基于Spring Boot 3.2.1框架，JDK版本为21，
-利用JDDBC与数据库进行交互，添加了thymeleaf模板，用于渲染页面，
+利用JDBC与数据库进行交互，添加了thymeleaf模板，用于渲染页面，
 Validation进行了数据的验证。
 
 主要功能：
