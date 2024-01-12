@@ -16,5 +16,6 @@ login: 存储登录信息。
 users: 存储用户信息
 bookdetails 与 bookinfo 通过 book_info_id 字段关联，表示每本书都对应一个书籍汇总记录。
 users 与 login 通过 login_id 字段关联，表示每个用户都有一个登录记录。
+数据库中添加了两个触发器和一个函数，可以实现不同表之间的数据同步。
 
 代码已上传github：https://github.com/Cxpppyyy/LibraryManageSystem
