@@ -118,6 +118,47 @@
     .delete-button:hover {
       background-color: #d32f2f;
     }
+    .borrow-form {
+      width: 80%;
+      max-width: 600px;
+      margin: 10px auto;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .borrow-form h2 {
+      margin-bottom: 20px;
+    }
+
+    .borrow-form form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .borrow-form input[type="number"] {
+      width: 70%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .borrow-submit-button {
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .borrow-submit-button:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 <body>
@@ -136,6 +177,19 @@
     <button type="submit" class="search-button">搜索</button>
   </form>
 </div>
+<div class="borrow-form">
+  <h2>提交借阅请求</h2>
+  <form id="borrowForm">
+    <label for="bookInfoId">图书信息ID:</label>
+    <input type="number" id="bookInfoId" name="bookInfoId" required>
+
+    <label for="borrowerId">借阅者ID:</label>
+    <input type="number" id="borrowerId" name="borrowerId" required>
+
+    <button type="submit" class="borrow-submit-button">提交借阅</button>
+  </form>
+</div>
+
 <div class="content">
   <h2>图书信息</h2>
   <table class="book-table">
@@ -158,6 +212,8 @@
     </tbody>
   </table>
 </div>
+
+
 <script>
   document.getElementById('searchForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -237,6 +293,31 @@
     }
     return '';
   }
+
+</script>
+<script>
+  document.getElementById('borrowForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const bookInfoId = document.getElementById('bookInfoId').value;
+    const borrowerId = document.getElementById('borrowerId').value;
+
+    // 替换下面的URL和逻辑以符合您的API
+    fetch(`http://localhost:8080/api/borrow/${bookInfoId}/${borrowerId}`, {
+      method: 'POST'
+    })
+            .then(response => {
+              if (response.ok) {
+                alert('借阅请求提交成功');
+                // 可以选择刷新页面或进行其他操作
+              } else {
+                alert('借阅请求提交失败');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('借阅请求提交失败');
+            });
+  });
 
 </script>
 

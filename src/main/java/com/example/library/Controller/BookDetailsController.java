@@ -2,6 +2,8 @@ package com.example.library.Controller;
 
 import com.example.library.Model.BookDetails;
 import com.example.library.Service.BookDetailsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,5 +26,12 @@ public class BookDetailsController {
     public void deleteBook(@PathVariable int id) {
         bookDetailsService.deleteBook(id);
     }
+
+    @PostMapping("/borrow/{bookInfoId}/{borrowerId}")
+    public ResponseEntity<String> borrowBook(@PathVariable int bookInfoId, @PathVariable int borrowerId) {
+        bookDetailsService.borrowBook(bookInfoId, borrowerId);
+        return ResponseEntity.ok("Borrowing request successful.");
+    }
+
 
 }

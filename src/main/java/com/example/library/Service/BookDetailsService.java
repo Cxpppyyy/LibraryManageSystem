@@ -3,6 +3,8 @@ package com.example.library.Service;
 import com.example.library.DAO.BookDetailsDao;
 import com.example.library.Model.BookDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -22,5 +24,8 @@ public class BookDetailsService {
         bookDetailsDao.deleteBook(id);
     }
 
-
+    @Transactional
+    public void borrowBook(int bookInfoId, int borrowerId) {
+        bookDetailsDao.borrowBook(bookInfoId, borrowerId);
+    }
 }
