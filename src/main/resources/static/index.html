@@ -178,10 +178,9 @@
         })
             .done(function(data) {
                 if (data.success) {
-                    // 登录成功，可能需要重定向到另一个页面
-                    window.location.href = "www.baidu.com"; // 示例重定向
+                    window.location.href = "http://localhost:8080/library-homepage";
                 } else {
-                    alert(data.message); // 显示登录失败消息
+                    alert(data.message);
                 }
             })
             .fail(function(jqXHR, textStatus, errorThrown) {

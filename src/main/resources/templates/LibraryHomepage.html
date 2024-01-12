@@ -7,7 +7,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            background-image: url('/static/img/DALL·E-4.png');
+            background-image: url('/img/DALL·E-4.png');
             background-size: cover;
             background-position: center;
             margin: 0;
@@ -76,10 +76,10 @@
     <h1>图书管理系统</h1>
 </div>
 <div class="nav-bar">
-    <a href="#">图书列表</a>
-    <a href="#">搜索图书</a>
-    <a href="#">添加图书</a>
-    <a href="#">个人信息</a>
+    <a href="http://localhost:8080/library-homepage">图书列表</a>
+    <a href="http://localhost:8080/library-searchpage">搜索图书</a>
+    <a href="http://localhost:8080/library-addpage">添加图书</a>
+    <a href="http://localhost:8080/library-userinfo">个人信息</a>
 </div>
 <div class="content">
     <table class="book-table">
@@ -138,7 +138,7 @@
             .catch(error => console.error('Error:', error));
     }
 
-    fetchBooks(); // Call this function when the page loads
+    fetchBooks();
 </script>
 </body>
 </html>

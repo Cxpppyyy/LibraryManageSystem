@@ -19,4 +19,14 @@ public class BookDetailsController {
     public List<BookDetails> searchBooks(@RequestParam String query) {
         return bookDetailsService.searchBooks(query);
     }
+
+    @PostMapping("/bookdetails")
+    public BookDetails addBook(@RequestBody BookDetails bookDetails) {
+        return bookDetailsService.addBook(bookDetails);
+    }
+
+    @PutMapping("/bookdetails/{id}")
+    public BookDetails updateBook(@PathVariable int id, @RequestBody BookDetails bookDetails) {
+        return bookDetailsService.updateBook(id, bookDetails);
+    }
 }
