@@ -17,4 +17,4 @@ users: 存储用户信息
 bookdetails 与 bookinfo 通过 book_info_id 字段关联，表示每本书都对应一个书籍汇总记录。
 users 与 login 通过 login_id 字段关联，表示每个用户都有一个登录记录。
 
-代码开源到github：
+代码已上传github：https://github.com/Cxpppyyy/LibraryManageSystem
