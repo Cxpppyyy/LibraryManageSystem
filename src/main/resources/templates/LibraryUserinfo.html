@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>图书管理系统</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,26 +42,6 @@
         .nav-bar a:hover {
             color: #ddd;
         }
-        .content {
-            width: 80%;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
-        }
-        .book-list {
-            list-style: none;
-            padding: 0;
-        }
-        .book-list li {
-            border-bottom: 1px solid #ddd;
-            padding: 8px 0;
-        }
-        .book-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
         .book-table th, .book-table td {
             border: 1px solid #ddd;
             padding: 8px;
@@ -68,6 +49,55 @@
         }
         .book-table th {
             background-color: #f4f4f4;
+        }
+        .search-box {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #45a049;
+        }
+
+        .user-info-table table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .user-info-table th, .user-info-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .user-info-table th {
+            background-color: #f4f4f4;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -81,6 +111,63 @@
     <a href="http://localhost:8080/library-addpage">添加图书</a>
     <a href="http://localhost:8080/library-userinfo">个人信息</a>
 </div>
+<div class="search-box">
+    <input type="text" id="searchInput" class="form-input" placeholder="输入登录ID进行搜索">
+    <button id="searchButton" class="search-button">搜索</button>
+</div>
+<div id="loading" class="loading" style="display:none;">正在加载...</div>
+
+<!-- 用户信息表格 -->
+<div class="user-info-table">
+    <table>
+        <thead>
+        <tr>
+            <th>用户ID</th>
+            <th>用户名</th>
+            <th>最大借书量</th>
+            <th>已借书籍数量</th>
+            <th>VIP 会员</th>
+            <th>逾期书籍数量</th>
+        </tr>
+        </thead>
+        <tbody id="userInfoBody">
+        <!-- 用户信息将在这里显示 -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.getElementById('searchButton').addEventListener('click', function() {
+        var loginId = document.getElementById('searchInput').value;
+        var loadingElement = document.getElementById('loading');
+        loadingElement.style.display = 'block';
+        fetch(`http://localhost:8080/api/searchUser?loginId=${loginId}`)
+            .then(response => response.json())
+            .then(data => {
+                loadingElement.style.display = 'none';
+                if (data.success) {
+                    const userInfo = data.user;
+                    const userInfoBody = document.getElementById('userInfoBody');
+                    userInfoBody.innerHTML = ''; // 清除旧数据
+
+                    // 创建新的表格行
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${userInfo.userId}</td>
+                        <td>${userInfo.userName}</td>
+                        <td>${userInfo.maxBooksBorrowed}</td>
+                        <td>${userInfo.booksBorrowed}</td>
+                        <td>${userInfo.isVip ? '是' : '否'}</td>
+                        <td>${userInfo.overdueBooks}</td>
+                    `;
+                    userInfoBody.appendChild(row);
+                } else {
+                    alert('用户未找到');
+                }
+            }   )
+            .catch(error => console.error('Error:', error));
+    });
+</script>
 
 </body>
 </html>

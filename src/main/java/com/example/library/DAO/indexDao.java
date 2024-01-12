@@ -1,7 +1,9 @@
 package com.example.library.DAO;
 
+import com.example.library.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +28,15 @@ public class indexDao {
             return null;
         }
     }
+    public User findUserByLoginId(String loginId) {
+        String sql = "SELECT * FROM users WHERE login_id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{loginId}, new BeanPropertyRowMapper<>(User.class));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
 
 
 }

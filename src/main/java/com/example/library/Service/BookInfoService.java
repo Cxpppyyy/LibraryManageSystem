@@ -21,4 +21,7 @@ public class BookInfoService {
     public List<BookInfo> getAllBooks() {
         return bookInfoDao.findAll();
     }
+    public BookInfo getBookById(int bookId) {
+        return bookInfoDao.findById(bookId);
+    }
 }

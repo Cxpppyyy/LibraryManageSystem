@@ -1,7 +1,9 @@
 package com.example.library.Controller;
 
+import com.example.library.Model.User;
 import com.example.library.Service.indexService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +43,24 @@ public class indexController {
             }});
         }
     }
+    // 在 UserController 中添加一个新的方法
+    @GetMapping("/searchUser")
+    public ResponseEntity<?> searchUser(@RequestParam String loginId) {
+        User user = indexService.getUserByLoginId(loginId);
+        if (user != null) {
+            // 返回用户信息
+            return ResponseEntity.ok().body(new HashMap<String, Object>() {{
+                put("success", true);
+                put("user", user);
+            }});
+        } else {
+            // 用户未找到
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new HashMap<String, Object>() {{
+                put("success", false);
+                put("message", "用户未找到");
+            }});
+        }
+    }
+
 
 }

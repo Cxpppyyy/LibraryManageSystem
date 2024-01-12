@@ -1,6 +1,7 @@
 package com.example.library.Service;
 
 import com.example.library.DAO.indexDao;
+import com.example.library.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class indexService {
     public Integer getLoginIdByUsername(String username) {
         return indexDao.getLoginIdByUsername(username);
     }
+    public User getUserByLoginId(String loginId) {
+        return indexDao.findUserByLoginId(loginId);
+    }
+
 
 
 }

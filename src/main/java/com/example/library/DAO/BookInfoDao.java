@@ -1,6 +1,7 @@
 package com.example.library.DAO;
 
 import com.example.library.Model.BookInfo;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.RowMapper;
@@ -49,5 +50,16 @@ public class    BookInfoDao {
             // 处理异常
         }
 
+    }
+    public BookInfo findById(int bookId) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM bookinfo WHERE book_info_id = ?",
+                    new Object[]{bookId},
+                    new BookInfoRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }

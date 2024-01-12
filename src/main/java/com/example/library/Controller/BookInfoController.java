@@ -27,5 +27,14 @@ public class BookInfoController {
         bookInfoService.addBook(bookInfo);
         return ResponseEntity.ok("Book added successfully");
     }
+    @GetMapping("/book/{bookId}")
+    public ResponseEntity<BookInfo> getBookById(@PathVariable("bookId") int bookId) {
+        BookInfo bookInfo = bookInfoService.getBookById(bookId);
+        if (bookInfo != null) {
+            return ResponseEntity.ok(bookInfo);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 

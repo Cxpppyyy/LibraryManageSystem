@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>图书管理系统</title>
   <style>
+    /* 通用样式调整 */
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -43,32 +44,15 @@
     }
     .content {
       width: 80%;
+      max-width: 1200px; /* 限制最大宽度 */
       background-color: rgba(255, 255, 255, 0.8);
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       margin-top: 20px;
     }
-    .book-list {
-      list-style: none;
-      padding: 0;
-    }
-    .book-list li {
-      border-bottom: 1px solid #ddd;
-      padding: 8px 0;
-    }
-    .book-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .book-table th, .book-table td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-    .book-table th {
-      background-color: #f4f4f4;
-    }
+
+    /* 搜索框样式调整 */
     .search-box {
       margin-top: 20px;
       text-align: center;
@@ -85,28 +69,31 @@
       padding: 10px 15px;
       border-radius: 5px;
       border: none;
-      background-color: #4CAF50;
+      background-color: #007bff;
       color: white;
       cursor: pointer;
     }
 
     .search-button:hover {
-      background-color: #45a049;
+      background-color: #0056b3;
     }
-    .form-input {
+
+    /* 表格样式优化 */
+    .book-table {
       width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .book-table th, .book-table td {
+      border: 1px solid #ddd;
       padding: 8px;
-      margin: 5px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      text-align: left;
+    }
+    .book-table th {
+      background-color: #f4f4f4;
     }
 
-    .form-label {
-      margin-top: 10px;
-      display: block;
-      font-weight: bold;
-    }
-
+    /* 按钮样式 */
     .edit-button, .delete-button {
       padding: 5px 10px;
       margin-right: 5px;
@@ -181,31 +168,35 @@
             .then(data => {
               const tableBody = document.querySelector('.book-table tbody');
               tableBody.innerHTML = ''; // 清空表格
+
               data.forEach(book => {
                 const row = document.createElement('tr');
 
-                // 根据后端返回的数据结构逐一添加单元格
+                // 添加各个单元格
                 row.appendChild(createCell(book.bookId));
                 row.appendChild(createCell(book.bookName));
                 row.appendChild(createCell(book.publisher));
-                row.appendChild(createCell(formatDate(book.publicationDate))); // 格式化日期
-                row.appendChild(createCell(book.isBorrowed ? '是' : '否')); // 布尔值处理
+                row.appendChild(createCell(formatDate(book.publicationDate)));
+                row.appendChild(createCell(book.isBorrowed ? '是' : '否'));
                 row.appendChild(createCell(book.borrowerId));
-                row.appendChild(createCell(formatDate(book.startDate))); // 格式化日期
-                row.appendChild(createCell(formatDate(book.dueDate))); // 格式化日期
+                row.appendChild(createCell(formatDate(book.startDate)));
+                row.appendChild(createCell(formatDate(book.dueDate)));
                 row.appendChild(createCell(book.bookInfoId));
 
-
+                // 创建操作单元格
                 const actionCell = document.createElement('td');
+
+                // 创建编辑按钮
                 const editButton = document.createElement('button');
                 editButton.textContent = '编辑';
-                editButton.className = 'edit-button';
+                editButton.classList.add('edit-button');
                 editButton.onclick = function() { editBook(book.bookId); };
                 actionCell.appendChild(editButton);
 
+                // 创建删除按钮
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = '删除';
-                deleteButton.className = 'delete-button';
+                deleteButton.classList.add('delete-button');
                 deleteButton.onclick = function() { deleteBook(book.bookId); };
                 actionCell.appendChild(deleteButton);
 
@@ -224,7 +215,7 @@
 
   function editBook(bookId) {
     console.log('编辑图书 ID:', bookId);
-    // 在这里添加编辑图书的逻辑
+    window.location.href = `http://localhost:8080/library-addpage?bookId=${bookId}`;
   }
 
   function deleteBook(bookId) {
